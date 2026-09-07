@@ -1,7 +1,8 @@
 import enum
 
 
-class RoleScope(str, enum.Enum):
-    SELLER = "seller"
-    RIDER = "rider"
+class Roles(str, enum.Enum):
     CUSTOMER = "customer"
+    RIDER = "rider"
+    SELLER = "seller"
+    ADMIN = "admin"
