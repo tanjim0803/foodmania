@@ -5,6 +5,9 @@ from app.services.user import user_services
 from pydantic import EmailStr
 from app.models.enums import Roles
 from typing import Annotated
+from app.models.user import User
+from app.schemas.user import UserOut
+from app.dependencies.dependencies import get_current_user
 
 router = APIRouter(prefix="/auth", tags=["Auth"])
 
@@ -33,3 +36,8 @@ async def login_with_email_password(
 @router.post("/refresh")
 async def refresh(db: SessionDep, token: str):
     return await user_services.refresh_token(db, token)
+
+
+@router.get("/me", response_model=UserOut)
+async def me(user: Annotated[User, Depends(get_current_user)]):
+    return user

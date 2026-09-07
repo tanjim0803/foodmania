@@ -12,7 +12,7 @@ if TYPE_CHECKING:
 class RefreshToken(UUIDPrimaryKeyMixin, Base):
     __tablename__ = "refresh_tokens"
 
-    user_id: Mapped[int] = mapped_column(ForeignKey("users.id"))
+    user_id: Mapped[str] = mapped_column(ForeignKey("users.id"))
     token: Mapped[str] = mapped_column(unique=True, nullable=False, index=True)
     created_at: Mapped[DateTime] = mapped_column(
         DateTime(timezone=True),

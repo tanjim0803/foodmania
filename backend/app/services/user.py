@@ -62,7 +62,7 @@ class UserServices:
         await db.commit()
         db.refresh(new_user)
 
-        return new_user
+        return {"message": "User successfully created!"}
 
     async def sign_in_with_email_password(
         self, db: AsyncSession, email: str, password: str
@@ -128,7 +128,7 @@ class UserServices:
                 detail="Session expired. Please log in again!",
             )
 
-        access_token = create_access_token(str(token_exists.user_id))
+        access_token = create_access_token(token_exists.user_id)
 
         return {"access_token": access_token, "token_type": "bearer"}
 
