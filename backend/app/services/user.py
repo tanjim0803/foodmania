@@ -1,4 +1,4 @@
-from fastapi import HTTPException, status
+from fastapi import HTTPException, status, UploadFile
 from app.models.user import User
 from app.models.refresh_token import RefreshToken
 from sqlalchemy.ext.asyncio import AsyncSession
@@ -13,6 +13,7 @@ from app.utils.user import (
 from app.config import security_settings
 from datetime import datetime, timezone, timedelta
 from app.models.enums import Roles
+from app.utils.utils import save_upload_file
 
 
 class UserServices:
@@ -40,7 +41,8 @@ class UserServices:
         name: str,
         email: str,
         password: str,
-        image: str,
+        phone: str,
+        image: UploadFile,
         role: Roles,
     ):
         user_exists = await self.get_user_by_email(db, email)
@@ -50,11 +52,14 @@ class UserServices:
                 status_code=status.HTTP_400_BAD_REQUEST, detail="User already exists!"
             )
 
+        image_path = await save_upload_file(image, "images")
+
         new_user = User(
             name=name,
             email=email,
             hashed_password=password_hash(password),
-            image=image,
+            phone=phone,
+            image_url=image_path,
             role=role,
         )
 

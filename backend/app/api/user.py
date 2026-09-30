@@ -1,4 +1,4 @@
-from fastapi import APIRouter, Form, Depends
+from fastapi import APIRouter, Form, Depends, File, UploadFile
 from fastapi.security import OAuth2PasswordRequestForm
 from app.database.session import SessionDep
 from app.services.user import user_services
@@ -18,10 +18,11 @@ async def register_user(
     name: str = Form(..., min_length=3, max_length=50),
     email: EmailStr = Form(...),
     password: str = Form(..., min_length=6, max_length=50),
-    image: str = Form(...),
+    phone: str = Form(..., max_length=20),
+    image: UploadFile = File(...),
     role: Roles = Form(...),
 ):
-    return await user_services.create_user(db, name, email, password, image, role)
+    return await user_services.create_user(db, name, email, password, phone, image, role)
 
 
 @router.post("/login")

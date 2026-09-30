@@ -14,8 +14,9 @@ class User(UUIDPrimaryKeyMixin, TimestampMixin, Base):
 
     name: Mapped[str] = mapped_column(String(50), nullable=False)
     email: Mapped[str] = mapped_column(String(50), unique=True, index=True)
-    hashed_password: Mapped[str] = mapped_column(nullable=False)
-    image: Mapped[str] = mapped_column(nullable=False)
+    hashed_password: Mapped[str] = mapped_column(nullable=True)
+    image_url: Mapped[str] = mapped_column(nullable=True)
+    phone: Mapped[str] = mapped_column(String(20), nullable=False)
     role: Mapped[Roles] = mapped_column(String(15), nullable=False)
     email_verified: Mapped[bool] = mapped_column(default=False, nullable=False)
     is_active: Mapped[bool] = mapped_column(default=True, nullable=False)
